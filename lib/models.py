@@ -3,7 +3,7 @@
 from datetime import datetime
 from sqlalchemy import create_engine
 from sqlalchemy import (Column, Integer, String, 
-    DateTime, CheckConstraint, UniqueConstraint)
+    Float, DateTime, CheckConstraint, UniqueConstraint)
 
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -26,3 +26,17 @@ class SaleRepresentative(Base):
             + f"Email: {self.email}," \
             + f"Region: {self.region}," \
             + f"Phone: {self.phone_number}"
+    
+
+class Product(Base):
+    __tablename__ = 'products'
+
+    id = Column(Integer(), primary_key=True)
+    name = Column(String(), nullable=False)
+    price = Column(Float(), nullable=False)
+
+    def __repr__(self):
+        return f"Product ID {self.id}:"\
+            + f"Name: {self.name}, " \
+            + f"Price: {self.price}"
+    
