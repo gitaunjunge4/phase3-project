@@ -13,17 +13,17 @@ Base = declarative_base(metadata=metadata)
 
 
 #Defining the relationship table between Customers and Products using table Purchase
-# purchase= Table(
-#     'purchases',
-#     Base.metadata, 
-#     Column('ID', Integer(), primary_key=True),
-#     Column('Bought at', DateTime(), server_default=func.now()),
-#     Column('Product ID', ForeignKey('products.id'), primary_key=True),
-#     Column('Product Name', ForeignKey('products.name')),
-#     Column('Customer ID', ForeignKey('customers.id'), primary_key=True),
-#     Column('Customer Name', ForeignKey('customers.name')),
-#     extend_existing=True,
-# )
+purchase= Table(
+    'purchases',
+    Base.metadata, 
+    Column('ID', Integer(), primary_key=True),
+    Column('Bought at', DateTime(), server_default=func.now()),
+    Column('Product ID', ForeignKey('products.id')),
+    #Column('Product Name', ForeignKey('products.name')),
+    Column('Customer ID', ForeignKey('customers.id')),
+    #Column('Customer Name', ForeignKey('customers.name')),
+    extend_existing=True,
+)
 
 
 #Defining the SaleRepresentative table
@@ -31,7 +31,7 @@ class SaleRepresentative(Base):
     __tablename__ = 'salesreps'
 
     id = Column(Integer(), primary_key=True)
-    name = Column(String(255), nullable=False)
+    name = Column(String(55), nullable=False)
     email = Column(String(50), nullable=False, unique=True)
     region = Column(String())
     phone_number = Column(Integer(), nullable=False)
@@ -56,7 +56,7 @@ class Product(Base):
     price = Column(Float(), nullable=False)
 
     #Establish an asssociation with Customer using the purchase association table
-    # customers = relationship("Customer", secondary=purchase, back_populates='products')
+    customers = relationship("Customer", secondary=purchase, backref='products')
 
     def __repr__(self):
         return f"Product ID {self.id}:"\
@@ -75,17 +75,19 @@ class Customer(Base):
     sale_rep = Column(Integer(), ForeignKey('salesreps.id'))
 
     #Establish an asssociation with Product using the purchase association table
-    # products = relationship('Product', secondary=purchase, back_populates='customers')
+    #products = relationship('Product', secondary=purchase, back_populates='customers')
 
     #Establish a many-to-one relationship between Customer and SaleRepresentative
-    salesrep = relationship('SaleRepresentative', back_populates='customers')
+    salesrep = relationship('SaleRepresentative', back_populates='customers', foreign_keys=[sale_rep])
+
+    
 
     def __repr__(self):
-        return f"Customer ID {self.id}:"\
+        return f"Customer ID: {self.id}, "\
             + f"Name: {self.name}, " \
-            + f"Phone Number: {self.phone_number}"\
+            + f"Phone Number: {self.phone_number}, "\
             + f"Address: {self.address}, " \
-            + f"Sale_rep: {self.sale_rep} "
+            + f"Sale_rep: {self.sale_rep}. "
     
 
 

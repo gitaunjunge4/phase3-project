@@ -3,7 +3,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from models import SaleRepresentative, Product, Customer 
+from models import SaleRepresentative, Product, Customer, purchase
 
 if __name__ == '__main__':
 

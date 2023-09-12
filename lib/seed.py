@@ -22,20 +22,20 @@ if __name__ == '__main__':
 
     #generates sake salerepresentatives details and saves it to the db
     print("Genrerating Sale Representatives...")
-    
-    salereps = [ 
-        SaleRepresentative(
+    salereps = []
+    for i in range(50):
+        salerep = SaleRepresentative(
             name=fake.unique.name(), 
             email=fake.unique.email(),
             region=fake.country(),
             phone_number=fake.phone_number(),
         )
+        # add and commit individually to get IDs back
+        session.add(salerep)
+        session.commit()
 
-    for i in range(10)]
-    # print(salereps)
-    session.bulk_save_objects(salereps)
-    session.commit()
-    
+        salereps.append(salerep)
+
 
     #generates fake product details and saves it to the db
     print("Generating store Products...")
@@ -53,7 +53,25 @@ if __name__ == '__main__':
     for i in range(50)]
     session.bulk_save_objects(products)
     session.commit()
-     
+
+
+    #generates fake customer details and saves it to the db
+    print("Generating customer details...")
+    customers = []
+    for sale_rep in salereps:
+            customer = Customer(
+                name=fake.unique.name(), 
+                phone_number=fake.phone_number(),
+                address=fake.address(), 
+                sale_rep= sale_rep.id,
+                #sale_rep_name= sale_rep.name
+            )
+            customers.append(customer)
+    print(customers)
+    session.bulk_save_objects(customers)
+    session.commit()
+    session.close()
+        
 
 
 
