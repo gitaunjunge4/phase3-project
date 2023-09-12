@@ -40,11 +40,11 @@ class SaleRepresentative(Base):
     customers = relationship("Customer", back_populates='salesrep')
 
     def __repr__(self):
-        return f"Sale_Representative {self.id}:"\
+        return f"Sale Representative ID: {self.id} "\
             + f"Name: {self.name}, " \
-            + f"Email: {self.email}," \
-            + f"Region: {self.region}," \
-            + f"Phone: {self.phone_number}"
+            + f"Email: {self.email}, " \
+            + f"Region: {self.region}, " \
+            + f"Phone Number: {self.phone_number}."
     
 
 #Defining the Product table
@@ -61,7 +61,7 @@ class Product(Base):
     def __repr__(self):
         return f"Product ID {self.id}:"\
             + f"Name: {self.name}, " \
-            + f"Price: {self.price}"
+            + f"Price: Ksh {self.price}"
     
 
 #Defining the Customer table
